@@ -13,7 +13,7 @@ var https = require("https");
 
 
 //MongoDB
-var mongo = require('./database/mongo');
+var mongo = require('./databases/mongo');
 
 
 //MySQL 1 Setup
@@ -53,11 +53,12 @@ var redisAdapter = require('socket.io-redis');
 var redis = require('redis');
 var pub = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST, { return_buffers:true, auth_pass: process.env.REDIS_PASSWORD });
 var sub = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST, { return_buffers:true, auth_pass: process.env.REDIS_PASSWORD });
-
 io.adapter( redisAdapter({pubClient: pub, subClient: sub}) );
 
 
 
+//Email with SendGrid Setup
+var EmailManager = require('./email/sendgrid');
 
 
 
