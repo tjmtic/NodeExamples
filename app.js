@@ -1,9 +1,65 @@
 var express = require('express');
+var session = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+
+
+//Secure Server 1 Setup?
+var https = require("https");
+
+
+//MongoDB
+var mongo = require('./database/mongo');
+
+
+//MySQL 1 Setup
+var mysql = require('mysql');
+var connection;
+app.use(function (req,res,next){
+
+   connection = mysql.createConnection({
+    host  : process.env.DB_HOST,
+    user  : process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
+  });
+
+  req.msqlCon = connection;
+  next();
+});
+
+
+
+//Socket 1 Setup
+var io = require('socket.io')();
+var server = require('http').createServer(app);
+server.listen(port, function () {
+  console.log('Server listening at some port %d', port);
+});
+io = require('socket.io')(server);
+
+
+//Beginning of Chatting for Socket
+var nsp = io.of("/0");
+
+
+
+//Redis 1 Setup ?Adapter
+var redisAdapter = require('socket.io-redis');
+var redis = require('redis');
+var pub = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST, { return_buffers:true, auth_pass: process.env.REDIS_PASSWORD });
+var sub = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST, { return_buffers:true, auth_pass: process.env.REDIS_PASSWORD });
+
+io.adapter( redisAdapter({pubClient: pub, subClient: sub}) );
+
+
+
+
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -21,6 +77,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'myappsecret',
+  resave: true,
+  saveUninitialized: true
+ } ));
+
+
+
 
 app.use('/', index);
 app.use('/users', users);
