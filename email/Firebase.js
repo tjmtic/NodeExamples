@@ -3,13 +3,13 @@
 const FB = require("firebase-admin");
 
 //Your Key Here
-const serviceAccount = require("YOUR_KEY_HERE");
+const serviceAccount = require("YOUR_KEYFILE_HERE");
 
 class Firebase {
 
 
 	constructor() {
-		console.log('Firebase module online awaiting requests.');
+		console.log('Firebase module initilazing.');
 		FB.initializeApp({
 		  credential: FB.credential.cert(serviceAccount),
 		  databaseURL: process.env.FIREBASE_URL

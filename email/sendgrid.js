@@ -2,10 +2,11 @@
 
 const sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 const crypto = require('crypto');
+var helper = require('sendgrid').mail;
+
 
 class SendGridManager {
 
-	var helper = require('sendgrid').mail;
 
 	constructor() {
 		console.log('Email manager online awaiting requests.');
@@ -13,7 +14,7 @@ class SendGridManager {
 
   sendEmail(title, name, to, message) {
     var body = '<html></html>';
-    var helper = require('sendgrid').mail;
+    //var helper = require('sendgrid').mail;
     var from_email = new helper.Email(process.env.EMAIL);
     var to_email = new helper.Email(to);
     var subject = title;

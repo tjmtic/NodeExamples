@@ -1,5 +1,6 @@
 //MongoDB 1 Setup
 
+var session = require('express-session');
 
 var MongoStore = require('connect-mongo/es5')(session);
 var mongoose = require('mongoose');
@@ -13,9 +14,9 @@ class Mongo {
       console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
       console.log(err);
       process.exit(1);
-	     }
+		});
 
-     });
+     }
 
 
 }
