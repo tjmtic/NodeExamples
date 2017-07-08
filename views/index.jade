@@ -1,5 +1,46 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  ul.breadcrumb-counter-nav
+  li.breadcrumb-counter-nav-item
+    a(href='#') Setup
+  li.breadcrumb-counter-nav-item.current
+    a(href='#') Sample Analysis
+  li.breadcrumb-counter-nav-item
+    a(href='#') Sort Layout
+  li.breadcrumb-counter-nav-item
+    a(href='#') Sort
+  li.breadcrumb-counter-nav-item
+    a(href='#') Reporting
+  .login-box
+    .row.expanded
+      .small-12.medium-6.column.small-order-2.medium-order-1
+        .login-box-form-section
+          form(action='/users/signup', method='POST')
+            h1.login-box-title Sign up
+            input.login-box-input(type='text', name='username', placeholder='Username')
+            input.login-box-input(type='email', name='email', placeholder='E-mail')
+            input.login-box-input(type='password', name='password', placeholder='Password')
+            input.login-box-input(type='password', name='confirmPassword', placeholder='Retype password')
+            input.login-box-submit-button(type='submit', name='signup_submit', value='Sign me up')
+        .login-box-form-section
+          form(action='/users/login', method='POST')
+            .sign-in-form
+              h4.text-center Sign In
+              label(for='sign-in-form-username') Email
+              input#email.sign-in-form-username(type='text', name='email')
+              label(for='sign-in-form-password') Password
+              input#password.sign-in-form-password(type='text', name='password')
+              button.sign-in-form-button(type='submit') Sign In
+        .or OR
+      .small-12.medium-6.column.small-order-1.medium-order-2.login-box-social-section
+        .login-box-social-section-inner
+          span.login-box-social-headline
+            | Sign in with
+            br
+            | your social network
+          a.login-box-social-button-facebook Log in with facebook
+          a.login-box-social-button-twitter Log in with Twitter
+          a.login-box-social-button-google Log in with Google+
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+  script(src='../javascripts/navbar.js')

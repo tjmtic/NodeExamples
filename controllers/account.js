@@ -18,8 +18,9 @@ exports.login = (req,res,next) => {
 
   if (errors) {
     req.flash('errors', errors);
-    return res.redirect('/login');
+    return res.redirect('/');
   }
+
 
   passport.authenticate('local', function(err, user, info) {
     if (err) {
@@ -29,18 +30,18 @@ exports.login = (req,res,next) => {
       req.flash('errors', { msg: info.message });
       return res.redirect('/login');
     }
+
     req.logIn(user, function(err) {
       if (err) {
         return next(err);
       }
       req.flash('success', { msg: 'Success! You are logged in.' });
-      console.log("USER LOGGED IN");
 
-      res.redirect('/users');
+      res.redirect('/users/home');
 
     });
-  });
-}
+  })(req, res, next);
+};
 
 exports.loginFB = (req, res) => {
   User.findOne({ facebook: req.body.facebook }).exec(function(err, existingUser) {
