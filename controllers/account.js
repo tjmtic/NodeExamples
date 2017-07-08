@@ -1,3 +1,5 @@
+
+var _ = require('lodash');
 const async = require('async');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
@@ -7,62 +9,38 @@ const validator = require('validator');
 const Stripe = require('stripe')(process.env.STRIPE_KEY);
 
 
-exports.login = (req,res) => {
-   User.findOne({ email: req.body.email.toLowerCase() }, (err, user) => {
-    if (err) {
-      console.log("Error: " + err);
-      res.json({'response':'failure', 'message': err});
-    }
-    else if (!user) {
-      res.json({'response':'failure', 'message': 'Email '+ req.body.email +' not found.'});
-    } else {
-      user.comparePassword(req.body.password, (err, isMatch) => {
-        if (err) {
-          console.log("Error: " + err);
-          res.json({'response':'failure', 'message': err});
-        } else if (isMatch) {
-          user.device = req.body.device;
-          user.device_type = req.body.device_type;
+exports.login = (req,res,next) => {
 
-          if (user.customerId == "") {
-            Stripe.customers.create({
-              description: user.first_name + " " + user.last_name,
-              email: user.email,
-            }, function(err, customer) {
-              if (err) {
-                console.log(err);
-                res.json({'response': 'failure', 'message': err});
-              }
-              if(customer){
-                console.log(customer);
-                user.customerId = customer.id;
-                user.save(function(err){
-                  if (err) {
-                    console.log(err);
-                    res.json({'response': 'failure', 'message': err});
-                  } else {
-                    res.json({'response':'success', 'user': user});
-                  }
-                });
-              }
-            });
-          } else {
-            user.save(function(err){
-              if (err) {
-                console.log(err);
-                res.json({'response': 'failure', 'message': err});
-              } else {
-                res.json({'response':'success', 'user': user});
-              }
-            });
-          }
-        } else {
-          res.json({'response':'failure', 'message': 'Invalid email or password.'});
-        }
-      });
+  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('password', 'Password cannot be blank').notEmpty();
+
+  var errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/login');
+  }
+
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      return next(err);
     }
+    if (!user) {
+      req.flash('errors', { msg: info.message });
+      return res.redirect('/login');
+    }
+    req.logIn(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+      req.flash('success', { msg: 'Success! You are logged in.' });
+      console.log("USER LOGGED IN");
+
+      res.redirect('/users');
+
+    });
   });
-};
+}
 
 exports.loginFB = (req, res) => {
   User.findOne({ facebook: req.body.facebook }).exec(function(err, existingUser) {
@@ -139,37 +117,52 @@ exports.loginFB = (req, res) => {
 /**
  * POST /signup
  */
-exports.signup = (req, res) => {
-  console.log("User Signing up\n");
-  //req.assert('email', 'Email is not valid').isEmail();
-  if (!validator.isEmail(req.body.email)) {
-    console.log("email is valid");
-    res.json({'response':'failure', 'message': 'A valid email is required.'});
+exports.signup = (req, res, next) => {
+  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('password', 'Password must be at least 4 characters long').len(4);
+  req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+
+  var errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/');
   }
-  req.sanitize('email').normalizeEmail({ remove_dots: false });
-  const user = new User({
+
+  var user = new User({
     email: req.body.email,
-    password: req.body.password,
-    device: req.body.device,
-    first_name:req.body.first_name,
-    last_name:req.body.last_name,
+    username: req.body.username,
+    password: req.body.password
   });
 
-  User.findOne({ email: req.body.email }, (err, existingUser) => {
-    if (err) {
-      res.json({'response':'failure', 'message': err});
-    }
+  //User.findOne({ email: req.body.email || username: req.body.username }, function(err, existingUser) {
+  User.findOne({ email: req.body.email }, function(err, existingUser) {
     if (existingUser) {
-      res.json({'response':'failure', 'message':'Account with that email address already exists.' });
-    } else {
-      user.save((err) => {
-        if (err) {
-          res.json({'response':'failure', 'message': err});
-        } else {
-          res.json({'response':'success', 'user': user});
-        }
-      });
+      req.flash('errors', { msg: 'Account with that email address already exists.' });
+      return res.redirect('/signup');
     }
+
+    User.findOne({ username: req.body.username }, function(err, existingUser) {
+      if (existingUser) {
+        req.flash('errors', { msg: 'Account with that  username already exists.' });
+        return res.redirect('/signup');
+      }
+
+        user.save(function(err) {
+          if (err) {
+            return next(err);
+          }
+
+          req.logIn(user, function(err) {
+            if (err) {
+              return next(err);
+            }
+
+            res.redirect('/new');
+
+          });
+        });
+    });
   });
 };
 

@@ -2,7 +2,6 @@
 
 var session = require('express-session');
 
-var MongoStore = require('connect-mongo/es5')(session);
 var mongoose = require('mongoose');
 
 class Mongo {

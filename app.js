@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var express = require('express');
 var session = require('express-session');
 var path = require('path');
@@ -6,10 +7,24 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var dotenv = require('dotenv');
+var passport = require('passport');
+var flash = require('express-flash');
+var expressValidator = require('express-validator');
+
+var MongoStore = require('connect-mongo/es5')(session);
+
+
 
 var app = express();
 
 dotenv.load({ path: '.env' });
+
+
+
+/**
+ * API keys and Passport configuration.
+ */
+var passportConf = require('./config/passport');
 
 
 //Secure Server 1 Setup?
@@ -17,12 +32,10 @@ var https = require("https");
 
 
 //MongoDB
-//var mongo = require('./databases/mongo');
+var mongo = require('./databases/mongo');
 
 
 
-
-//var env = require('./.env');
 
 //Socket 1 Setup
 var io = require('socket.io')();
@@ -84,18 +97,25 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(expressValidator());
+app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: 'myappsecret',
+  secret: process.env.SESSION_SECRET,
+  store: new MongoStore({
+    url: process.env.MONGODB || process.env.MONGOLAB_URI,
+    autoReconnect: true
+  }),
   resave: true,
   saveUninitialized: true
  } ));
 
 
-
+ app.use(passport.initialize());
+ app.use(passport.session());
 
 app.use('/', index);
 app.use('/users', users);

@@ -7,6 +7,12 @@ var accountController = require('../controllers/account');
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
+router.get('/login', function(req, res, next) {
+  res.send('respond with login resource');
+});
+router.get('/signup', function(req, res, next) {
+  res.send('respond with login resource');
+});
 
 router.post('/login', accountController.login);
 
