@@ -167,6 +167,19 @@ exports.signup = (req, res, next) => {
   });
 };
 
+/**
+ * GET /logout
+ * Log out.
+ */
+exports.logout = function(req, res) {
+  console.log("logout req....");
+  console.log(req);
+  console.log('logout req end.');
+  req.logout();
+
+  res.redirect('/');
+};
+
 exports.sendPasswordReset = function(req, res) {
   var store = res.locals.store;
   User.findOne({ email: req.body.email }).exec(function(err, user){
