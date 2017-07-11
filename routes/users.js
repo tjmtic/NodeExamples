@@ -15,7 +15,7 @@ router.get('/signup', function(req, res, next) {
 });
 
 router.get('/home', passportConf.isAuthenticated, function(req,res,next) {
-    res.render('index', {
+    res.render('fiftyfifty', {
     user: req.user
   });
 });

@@ -1,0 +1,14 @@
+script(src='/socket.io/socket.io.js')
+script(src='https://code.jquery.com/jquery-1.11.1.js')
+h2 Chat
+p Talk to other "people" who are interested in me. Actually, don't.
+.w3-container.w3-responsive
+  #chatWindow
+    ul#messages
+      li 1
+      li 2
+      li 3
+    #end
+  form.chat(action='')
+    input#m(autocomplete='off')
+    button Send

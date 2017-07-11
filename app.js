@@ -50,6 +50,12 @@ io = require('socket.io')(server);
 //Beginning of Chatting for Socket
 var nsp = io.of("/0");
 
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
+});
+
 
 
 //Redis 1 Setup ?Adapter

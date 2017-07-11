@@ -1,0 +1,113 @@
+doctype html
+html
+  title W3.CSS Template
+  meta(charset='UTF-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
+  body.w3-content(style='max-width:1300px')
+    // First Grid: Logo & About
+    .w3-row
+      .w3-half.w3-black.w3-container.w3-center(style='height:700px')
+        .w3-padding-64
+          h1 My Logo
+        .w3-padding-64
+          a.w3-button.w3-black.w3-block.w3-hover-blue-grey.w3-padding-16(href='#') Home
+          a.w3-button.w3-black.w3-block.w3-hover-teal.w3-padding-16(href='#work') My Work
+          a.w3-button.w3-black.w3-block.w3-hover-dark-grey.w3-padding-16(href='#work') Resume
+          a.w3-button.w3-black.w3-block.w3-hover-brown.w3-padding-16(href='#contact') Contact
+      .w3-half.w3-blue-grey.w3-container(style='height:700px')
+        .w3-padding-64.w3-center
+          h1 About Me
+          img.w3-margin.w3-circle(src='/w3images/avatar3.png', alt='Person', style='width:50%')
+          .w3-left-align.w3-padding-large
+            p
+              | Lorem ipusm sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.
+            p
+              | Lorem ipusm sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.
+    // Second Grid: Work & Resume
+    .w3-row
+      #work.w3-half.w3-light-grey.w3-center(style='min-height:800px')
+        .w3-padding-64
+          h2 My Work
+          p Some of my latest projects.
+        .w3-row
+          .w3-half
+            img(src='/w3images/coffee.jpg', style='width:100%')
+          .w3-half
+            img(src='/w3images/workbench.jpg', style='width:100%')
+        .w3-row.w3-hide-small
+          .w3-half
+            img(src='/w3images/workbench.jpg', style='width:100%')
+          .w3-half
+            img(src='/w3images/coffee.jpg', style='width:100%')
+        .w3-row.w3-hide-small
+          .w3-half
+            img(src='/w3images/sound.jpg', style='width:100%')
+          .w3-half
+            img(src='/w3images/workbench.jpg', style='width:100%')
+        br
+        p Just call me awesome.
+      .w3-half.w3-indigo.w3-container(style='min-height:800px')
+        .w3-padding-64.w3-center
+          h2 Resume
+          p A draft from my CV
+          .w3-container.w3-responsive
+            table.w3-table
+              tr
+                th Year
+                th Title
+                th Where
+              tr.w3-white
+                td 2012-2016
+                td The rest is history..
+                td Lorem ipsum
+              tr
+                td 2009-2012
+                td Started my own company
+                td My Garage
+              tr.w3-white
+                td 2008-2009
+                td Started working for Lorem
+                td London, UK
+              tr
+                td 2005-2008
+                td Degree in Bachelor of Design
+                td Harvard, USA
+              tr.w3-white
+                td 2002-2005
+                td Degree in Bachelor of Business
+                td RMIT University, Melbourne, Australia
+              tr.w3-hide-medium
+                td 2002-2005
+                td Degree in Bachelor of Business
+                td RMIT University, Melbourne, Australia
+    // Third Grid: Swing By & Contact
+    #contact.w3-row
+      .w3-half.w3-dark-grey.w3-container.w3-center(style='height:700px')
+        .w3-padding-64
+          h1 Swing By
+        .w3-padding-64
+          p ..for a cup of coffee, or whatever.
+          p Chicago, US
+          p +00 1515151515
+          p test@test.com
+      .w3-half.w3-teal.w3-container(style='height:700px')
+        .w3-padding-64.w3-padding-large
+          h1 Contact
+          p.w3-opacity GET IN TOUCH
+          form.w3-container.w3-card-2.w3-padding-32.w3-white(action='/action_page.php', target='_blank')
+            .w3-section
+              label Name
+              input.w3-input(style='width:100%;', type='text', required='', name='Name')
+            .w3-section
+              label Email
+              input.w3-input(style='width:100%;', type='text', required='', name='Email')
+            .w3-section
+              label Message
+              input.w3-input(style='width:100%;', type='text', required='', name='Message')
+            button.w3-button.w3-teal.w3-right(type='submit') Send
+    // Footer
+    footer.w3-container.w3-black.w3-padding-16
+      p
+        | Powered by
+        a(href='https://www.w3schools.com/w3css/default.asp', target='_blank') w3.css
