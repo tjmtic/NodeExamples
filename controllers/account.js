@@ -247,3 +247,71 @@ exports.resetPassword = function(req, res) {
     }
   });
 }
+
+
+
+
+//CRUD: UPDATE Account
+/**
+ * POST /users/update
+ */
+exports.update = (req, res, next) => {
+  req.assert('email', 'Email is not valid').isEmail();
+
+  var errors = req.validationErrors();
+
+  if (errors) {
+    return res.json({'error': errors});
+    //return res.redirect('/');
+  }
+
+User.findOne({ _id: req.user._id }, function(err, user) {
+  //User.findOne({ email: req.body.email || username: req.body.username }, function(err, existingUser) {
+  if(!user){
+    return res.json({'error': 'Account Error.'});
+  }
+  User.findOne({ email: req.body.email }, function(err, existingUser) {
+    if(err){
+      return res.json({'error': err});
+    }
+    if (existingUser) {
+      if(user._id == existingUser._id){}
+
+      else{
+        //req.flash('errors', { msg: 'Account with that email address already exists.' });
+        //return res.render(error)
+        return res.json({'error': 'Account with that email address already exists.'});
+      }
+    }
+
+    User.findOne({ username: req.body.username }, function(err, existingUser2) {
+          if(err){
+            return res.json({'error': err});
+          }
+          if (existingUser2) {
+            if(user._id == existingUser2._id){}
+
+            else{
+            //  req.flash('errors', { msg: 'Account with that username already exists.' });
+            //  return res.redirect('/signup');
+            return res.json({'error': 'Account with that username already exists.'});
+            }
+          }
+
+          user.email= req.body.email;
+          user.username= req.body.username;
+          user.profile.website= req.body.website;
+          user.profile.location= req.body.location;
+
+          user.save(function(err) {
+            if (err) {
+              return res.json({'error': 'Saving Error'});
+            }
+
+            res.render('partials/account', {user:user});
+
+          });
+        });
+    });
+  });
+};

@@ -52,7 +52,17 @@ var nsp = io.of("/0");
 
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
+
+//Middleware-ish re-creation of message
+//could do other validation things here,
+//or emit different messages depending on paylod
+    var message = {
+      user : msg.user,
+      time : msg.time,
+      value : msg.value
+    };
+
+    io.emit('chat message', message);
   });
 });
 

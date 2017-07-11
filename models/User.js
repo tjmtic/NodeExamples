@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema({
     gender: String,
     location: String,
     website: String,
-    picture: String
+    picture: String,
+    banner: String
   },
   first_name:String,
   last_name:String,
@@ -26,7 +27,6 @@ const userSchema = new mongoose.Schema({
   device:String,
   device_type:String,
   username: String,
-  avatar:String,
   customerId:{ type:String, default: "" },
   addresses:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Address'}],
   messages:[{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }]

@@ -1,0 +1,41 @@
+.accountWindow
+  .row
+    .col-lg-12.col-sm-12
+      .card.hovercard
+        .cardheader
+        .avatar
+          if(user.image)
+            img(alt='/images/defaultAvatar.png', src='#{user.image}')
+          else
+            img(alt='', src='/images/defaultAvatar.png')
+        .info
+          .title
+            | #{user.username}
+          .desc Name: #{user.profile.name}
+          .desc Email: #{user.email}
+          .desc Location: #{user.profile.location}
+          .desc
+            | Website:
+            a(target='_blank', href='#{user.profile.website}') #{user.profile.website}
+        .bottom
+          if(user.twitter)
+            a.btn.btn-primary.btn-twitter.btn-sm(href='https://twitter.com/')
+              i.fa.fa-twitter
+          if(user.google)
+            a.btn.btn-danger.btn-sm(rel='publisher', href='https://plus.google.com/+')
+              i.fa.fa-google-plus
+          if(user.facebook)
+            a.btn.btn-primary.btn-sm(rel='publisher', href='https://plus.google.com/')
+              i.fa.fa-facebook
+  .row
+    form.w3-container.w3-card-2.w3-padding-32.w3-white(action='')
+      div#accountError
+      .w3-section
+        input.w3-input(style='width:100%;', type='text', required='', id='user_username', name='Name')
+      .w3-section
+        input.w3-input(style='width:100%;', type='text', required='', id='user_email', name='Email')
+      .w3-section
+        input.w3-input(style='width:100%;', type='text', required='', id='user_location' name='Location')
+      button.w3-button.w3-teal.w3-right(onClick='updateAccount()') Send
+
+script(src='/js/account.js')

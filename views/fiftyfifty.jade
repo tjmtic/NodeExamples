@@ -16,14 +16,9 @@ block content
           a.w3-button.w3-black.w3-block.w3-hover-blue-grey.w3-padding-16(href='#') Account Management (MongoDB)
           a.w3-button.w3-black.w3-block.w3-hover-blue-grey.w3-padding-16(href='#') Image Store (Google/AWS)
       .w3-half.w3-blue-grey.w3-container(style='height:700px')
-        .w3-padding-64.w3-center
-          h1 About Your Account
-          img.w3-margin.w3-circle(src='/w3images/avatar3.png', alt='Person', style='width:50%')
-          .w3-left-align.w3-padding-large
-            p
-              | Lorem ipusm sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.
-            p
-              | Lorem ipusm sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.
+        .w3-padding-64.w3-center#accountCard
+          include partials/account
+
     // Second Grid: Work & Resume
     .w3-row
       #work.w3-half.w3-light-grey.w3-center(style='min-height:800px')
@@ -65,14 +60,15 @@ block content
         .w3-padding-64.w3-padding-large
           h1 Contact
           p.w3-opacity GET IN TOUCH
-          form.w3-container.w3-card-2.w3-padding-32.w3-white(action='/action_page.php', target='_blank')
+          form.w3-container.w3-card-2.w3-padding-32.w3-white(action='')
+            div#accountError
             .w3-section
               label Name
-              input.w3-input(style='width:100%;', type='text', required='', name='Name')
+              input.w3-input(style='width:100%;', type='text', required='', id='user_username', name='Name')
             .w3-section
               label Email
-              input.w3-input(style='width:100%;', type='text', required='', name='Email')
+              input.w3-input(style='width:100%;', type='text', required='', id='user_email', name='Email')
             .w3-section
               label Message
-              input.w3-input(style='width:100%;', type='text', required='', name='Message')
-            button.w3-button.w3-teal.w3-right(type='submit') Send
+              input.w3-input(style='width:100%;', type='text', required='', id='user_location' name='Location')
+            button.w3-button.w3-teal.w3-right(onClick='updateAccount()') Send

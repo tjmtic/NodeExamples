@@ -6,6 +6,8 @@ var passport = require('passport');
 
 var accountController = require('../controllers/account');
 
+
+//LOGIN FORM ROUTES
 /* GET users listing. */
 router.get('/', passportConf.isAuthenticated);
 router.get('/login', passportConf.isAuthenticated);
@@ -20,6 +22,8 @@ router.get('/home', passportConf.isAuthenticated, function(req,res,next) {
   });
 });
 
+
+//LOGIN SETTING ROUTES
 router.post('/login', accountController.login);
 router.post('/signup', accountController.signup);
 router.get('/logout', accountController.logout);
@@ -41,5 +45,14 @@ router.get('/auth/twitter', passport.authenticate('twitter'));
 router.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
 });
+
+
+
+
+//USER CRUD OPERATIONS
+//router.put('/create', accountController.update);
+//router.get('/retrieve', accountController.update);
+router.post('/update', accountController.update);
+//router.delete('/delete', accountController.update);
 
 module.exports = router;
