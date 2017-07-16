@@ -33,6 +33,7 @@ function updateAccount(){
             else{
               alert("Success");
               $('#accountCard').html(xhr);
+              $('#headerusername').html(username);
             }
         },
         error: function(err){
