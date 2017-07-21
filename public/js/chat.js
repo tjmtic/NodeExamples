@@ -4,7 +4,7 @@ $(function () {
          var dateString = new Date(Date.now());
          dateString = dateString.toString().split(" ");
          dateString = dateString[1] + " " + dateString[2] + "-" + dateString[3] + "-" + dateString[4];
-         socket.emit('chat message', {'user' : 'guest', 'value' : $('#m').val(), 'time' : dateString});
+         socket.emit('chat message', {'user' : $('#user').val(), 'value' : $('#m').val(), 'time' : dateString});
          $('#m').val('');
          return false;
        });
