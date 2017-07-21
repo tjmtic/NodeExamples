@@ -2,34 +2,65 @@ extends layout0
 
 block content
   .login-box
-    .row.expanded
-      .small-.medium-6.column.small-order-2.medium-order-1
+    .row.expanded.grid-x
+      .small-6.medium-6.column.small-order-2.medium-order-1
         .login-box-form-section
-          form(action='/users/signup', method='POST')
-            h1.login-box-title Sign up
-            input.login-box-input(type='text', name='username', placeholder='Username')
-            input.login-box-input(type='email', name='email', placeholder='E-mail')
-            input.login-box-input(type='password', name='password', placeholder='Password')
-            input.login-box-input(type='password', name='confirmPassword', placeholder='Retype password')
-            input.login-box-submit-button(type='submit', name='signup_submit', value='Sign me up')
+          .flip-card.card(ontouchstart="this.classList.toggle('hover');")
+            .flip-card-inner
+              .flip-card-inner-front
+                | LOGIN
+              .flip-card-inner-back
+                form(action='/users/login', method='POST')
+                  h1.login-box-title Log In
+                  input.login-box-input(type='email', id='email', name='email', placeholder='E-mail')
+                  input.login-box-input(type='password', id='password', name='password', placeholder='Password')
+                  input.login-box-submit-button(type='submit', name='signup_submit', value='Log In')
+
+
         .login-box-form-section
-          form(action='/users/login', method='POST')
-            .sign-in-form
-              h4.text-center Sign In
-              label(for='sign-in-form-username') Email
-              input#email.sign-in-form-username(type='text', name='email')
-              label(for='sign-in-form-password') Password
-              input#password.sign-in-form-password(type='password', name='password')
-              button.sign-in-form-button(type='submit') Sign In
-        .or OR
+          .flip-card.card(ontouchstart="this.classList.toggle('hover');")
+            .flip-card-inner
+              .flip-card-inner-front
+                | SIGNUP
+              .flip-card-inner-back
+                form(action='/users/signup', method='POST')
+                  h1.login-box-title Sign up
+                  input.login-box-input(type='text', name='username', placeholder='Username')
+                  input.login-box-input(type='email', name='email', placeholder='E-mail')
+                  input.login-box-input(type='password', name='password', placeholder='Password')
+                  input.login-box-input(type='password', name='confirmPassword', placeholder='Retype password')
+                  input.login-box-submit-button(type='submit', name='signup_submit', value='Sign up')
+
       .small-6.medium-6.column.small-order-1.medium-order-2.login-box-social-section
-        .login-box-social-section-inner
-          span.login-box-social-headline
-            | Sign in with
-            br
-            | your social network
-          a.login-box-social-button-facebook(href='users/auth/facebook') Log in with facebook
-          a.login-box-social-button-twitter(href='users/auth/twitter') Log in with Twitter
-          a.login-box-social-button-google(href='users/auth/google') Log in with Google+
+        .login-box-form-section
+          .flip-card.card(ontouchstart="this.classList.toggle('hover');")
+            .flip-card-inner
+              .flip-card-inner-front
+                span.login-box-social-headline
+                  | Sign in with
+                  br
+                  | your social network
+              .flip-card-inner-back
+                .login-box-social-section-inner
+                  a.login-box-social-button-facebook(href='users/auth/facebook') Log in with facebook
+                  a.login-box-social-button-twitter(href='users/auth/twitter') Log in with Twitter
+                  a.login-box-social-button-google(href='users/auth/google') Log in with Google+
+        .login-box-form-section
+          .flip-card.card(ontouchstart="this.classList.toggle('hover');")
+            .flip-card-inner
+              .flip-card-inner-front
+                form(action='/users/login', method='POST')
+                  h1.login-box-title Log In
+                  input.login-box-input(type='email', id='email', name='email', placeholder='E-mail')
+                  input.login-box-input(type='password', id='password', name='password', placeholder='Password')
+                  input.login-box-submit-button(type='submit', name='signup_submit', value='Log In')
+              .flip-card-inner-back
+                form(action='/users/login', method='POST')
+                  h1.login-box-title Log In
+                  input.login-box-input(type='email', id='email', name='email', placeholder='E-mail')
+                  input.login-box-input(type='password', id='password', name='password', placeholder='Password')
+                  input.login-box-submit-button(type='submit', name='signup_submit', value='Log In')
+    .or OR
+
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
   script(src='../javascripts/navbar.js')
