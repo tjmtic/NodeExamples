@@ -13,7 +13,7 @@ function sendFirebase(){
 
       var title = $('#title_firebase').val();
       var content = $('#content_firebase').val();
-      var device = $('#device_id_firebase').val();
+      var device_id = $('#device_id_firebase').val();
 
       //var info = {'username':username, 'email':email, 'website':website, 'location':location};
 

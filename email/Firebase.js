@@ -1,9 +1,7 @@
 'use strict';
 
 const FB = require("firebase-admin");
-
-//Your Key Here
-const serviceAccount = require("YOUR_KEYFILE_HERE");
+const serviceAccount = require("../keys/qb_fb_adminsdk_pk.json");
 
 class Firebase {
 

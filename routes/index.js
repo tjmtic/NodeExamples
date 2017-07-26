@@ -11,4 +11,15 @@ router.get('/', function(req, res, next) {
 
 });
 
+router.post('/firebase/send', function(req,res,next){
+
+    var token = req.body.device_id;
+    var title = req.body.title;
+    var content = req.body.content;
+    req.fbManager.sendNotification(token, title, content);
+
+    res.json({"message":"success"});
+
+});
+
 module.exports = router;

@@ -136,8 +136,17 @@ app.use(session({
 
 
 
+ var fbManager = require('./email/Firebase');
+ app.use(function(req,res,next) {
+   req.fbManager = fbManager;
+   next();
+ });
+
+
+
 app.use('/', index);
 app.use('/users', users);
+
 
 
 
