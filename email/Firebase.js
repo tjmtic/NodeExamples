@@ -1,9 +1,7 @@
 'use strict';
 
 const FB = require("firebase-admin");
-
-//Your Key Here
-const serviceAccount = require("YOUR_KEYFILE_HERE");
+const serviceAccount = require("../keys/qb_fb_adminsdk_pk.json");
 
 class Firebase {
 
@@ -23,7 +21,7 @@ class Firebase {
 		  }
 		};
 		FB.messaging().sendToDevice(token, payload).then(function(response) {
-		    console.log("Successfully sent message:", response);
+		    console.log("Successfully sent message:", response.results[0]);
 		}).catch(function(error) {
 		    console.log("Error sending message:", error);
 		});

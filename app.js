@@ -112,7 +112,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
+// uncomment after placing your favicon in /publi
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(expressValidator());
@@ -124,7 +124,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
-    url: process.env.MONGODB || process.env.MONGOLAB_URI,
+    url: process.env.MONGODB || process.env.MONGO_URI,
     autoReconnect: true
   }),
   resave: true,
@@ -151,8 +151,17 @@ app.use(function(req, res, next) {
 
 
 
+ var fbManager = require('./email/Firebase');
+ app.use(function(req,res,next) {
+   req.fbManager = fbManager;
+   next();
+ });
+
+
+
 app.use('/', index);
 app.use('/users', users);
+
 
 
 

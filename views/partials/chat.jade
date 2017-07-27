@@ -9,7 +9,8 @@ p Talk to other "people" who are interested in me. Actually, don't.
       li 2
       li 3
     #end
-  form.chat(action='')
+  form#form_chat(action='')
     input#m(autocomplete='off')
+    input#user(type='hidden', value='#{user.username}')
     button Send
 script(src='/js/chat.js')
