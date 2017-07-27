@@ -21,7 +21,7 @@ class Firebase {
 		  }
 		};
 		FB.messaging().sendToDevice(token, payload).then(function(response) {
-		    console.log("Successfully sent message:", response);
+		    console.log("Successfully sent message:", response.results[0]);
 		}).catch(function(error) {
 		    console.log("Error sending message:", error);
 		});
