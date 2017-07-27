@@ -18,6 +18,7 @@
     "express-validator": "^3.2.0",
     "jade": "~1.11.0",
     "lodash": "^4.17.4",
+    "lusca": "^1.4.1",
     "mongoose": "^4.5.5",
     "morgan": "~1.8.1",
     "mysql": "^2.10.2",

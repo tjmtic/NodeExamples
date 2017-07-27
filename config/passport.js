@@ -226,6 +226,26 @@ exports.isAuthenticated = function(req, res, next) {
 };
 
 /**
+ * Login Required middleware.
+ * For Mobile Systems
+ */
+exports.isAuthenticatedMobile = function(req, res, next) {
+  //console.log(req);
+  //console.log("REQReS11111111111!!!!!!_____________-------------");
+  //console.log(res);
+  //console.log("REQReS22222222222!!!!!!_____________-------------");
+
+  if (req.isAuthenticated()) {
+    console.log("Authenticated.")
+    return next();
+  }
+
+  console.log("Redirected.")
+
+  res.redirect('/users/app/');
+};
+
+/**
  * Authorization Required middleware.
  */
 exports.isAuthorized = function(req, res, next) {

@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var dotenv = require('dotenv');
 var passport = require('passport');
+var lusca = require('lusca');
 var flash = require('express-flash');
 var expressValidator = require('express-validator');
 
@@ -133,6 +134,20 @@ app.use(session({
 
  app.use(passport.initialize());
  app.use(passport.session());
+
+ app.use(function(req, res, next) {
+  if (req.path==='/' ) {
+    next();
+  } else {
+    lusca.csrf()(req, res, next);
+  }
+});
+app.use(lusca.xframe('SAMEORIGIN'));
+app.use(lusca.xssProtection(true));
+app.use(function(req, res, next) {
+  res.locals.user = req.user;
+  next();
+});
 
 
 

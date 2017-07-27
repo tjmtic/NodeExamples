@@ -10,6 +10,17 @@ var accountController = require('../controllers/account');
 //LOGIN FORM ROUTES
 /* GET users listing. */
 router.get('/', passportConf.isAuthenticated);
+router.get('/app', function(req,res,next) {
+
+
+    var csrf =  res.locals._csrf;
+    var sid =   req.session;
+    var message = "success";
+    res.send({csrf, sid, message});
+
+});
+
+
 router.get('/login', passportConf.isAuthenticated);
 
 router.get('/signup', function(req, res, next) {
@@ -22,9 +33,20 @@ router.get('/home', passportConf.isAuthenticated, function(req,res,next) {
   });
 });
 
+router.get('/app/home', passportConf.isAuthenticatedMobile, function(req,res,next) {
+    var csrf =  res.locals._csrf;
+    var sid =   req.session;
+    var user = req.user;
+    var message = "success";
+    
+    res.send({csrf, sid, user, message});
+
+});
+
 
 //LOGIN SETTING ROUTES
 router.post('/login', accountController.login);
+router.post('/app/login', accountController.appLogin);
 router.post('/signup', accountController.signup);
 router.get('/logout', accountController.logout);
 

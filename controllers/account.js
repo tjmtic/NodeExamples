@@ -42,6 +42,55 @@ exports.login = (req,res,next) => {
     });
   })(req, res, next);
 };
+exports.appLogin = (req,res,next) => {
+
+  var csrf =  res.locals._csrf;
+  var sid =   req.session;
+
+  console.log(req.body);
+  console.log(req.header);
+
+  console.log(csrf+" csrfsid " +sid);
+
+  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('password', 'Password cannot be blank').notEmpty();
+
+  var errors = req.validationErrors();
+
+
+
+  if (errors) {
+    //req.flash('errors', errors);
+    //return res.redirect('/');
+    var error = errors;
+    return res.send({csrf, sid, error});
+  }
+
+
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      //req.flash('errors', { msg: info.message });
+      //return res.redirect('/users/login');
+      var message = info.message;
+      return res.send({csrf, sid, message});
+    }
+
+    req.logIn(user, function(err) {
+      if (err) {
+        return next(err);
+      }
+      //req.flash('success', { msg: 'Success! You are logged in.' });
+
+      res.redirect('/users/app/home');
+
+    });
+  })(req, res, next);
+};
+
+
 
 exports.loginFB = (req, res) => {
   User.findOne({ facebook: req.body.facebook }).exec(function(err, existingUser) {
