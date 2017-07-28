@@ -257,3 +257,17 @@ exports.isAuthorized = function(req, res, next) {
     res.redirect('/auth/' + provider);
   }
 };
+
+
+/**
+ * Authorization Required middleware.
+ */
+exports.isAuthorizedMobile = function(req, res, next) {
+  var provider = req.path.split('/').slice(-1)[0];
+
+  if (_.find(req.user.tokens, { kind: provider })) {
+    next();
+  } else {
+    res.redirect('/app/auth/' + provider);
+  }
+};

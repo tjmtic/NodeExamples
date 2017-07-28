@@ -93,72 +93,92 @@ exports.appLogin = (req,res,next) => {
 
 
 exports.loginFB = (req, res) => {
-  User.findOne({ facebook: req.body.facebook }).exec(function(err, existingUser) {
-    if (err) {
-      console.log("Error: " + err);
-      res.json({'response':'failure', 'message': err});
-    }
-    if (existingUser) {
-      existingUser.email = req.body.email;
-      existingUser.first_name = req.body.first_name;
-      existingUser.last_name = req.body.last_name;
-      existingUser.device = req.body.device;
-      existingUser.device_type = req.body.device_type;
-      if (existingUser.customerId == "") {
-            Stripe.customers.create({
-              description: existingUser.first_name + " " + existingUser.last_name,
-              email: existingUser.email,
-            },function(err, customer) {
-              if (err) {
-                console.log(err);
-                    res.json({'response': 'failure', 'message': err});
-              }
-                if(customer){
-                  console.log(customer);
-                  existingUser.customerId = customer.id;
-                  existingUser.save(function(err){
-                    if (err) {
-                      console.log(err);
-                      res.json({'response': 'failure', 'message': err});
-                    } else {
-                      res.json({'response':'success', 'user': existingUser });
-                    }
-                  });
-                }
-            });
-      } else {
-        existingUser.save(function(err){
-          if (err) {
-            console.log("Error: " + err);
-            res.json({'response':'failure', 'message': err});
-          } else {
-            console.log("Saved user: " + existingUser);
-            res.json({'response':'success', 'user': existingUser});
-          }
-        });
-      }
-    } else {
-      console.log("Not existing user");
-      const user = new User({
-        email: req.body.email,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        facebook: req.body.facebook,
-        device: req.body.device,
-        device_type: req.body.device_type,
-      });
-      user.save(function(err){
-        if (err) {
-          console.log("Error: " + err);
-          res.json({'response':'failure', 'message': err});
+
+    var postId = req.body.pid;
+    var postToken = req.body.token;
+    var postEmail = req.body.email;
+
+    var csrf =  res.locals._csrf;
+    var sid =   req.session;
+
+
+    if (req.user) {
+      User.findOne({ facebook: postId }, function(err, existingUser) {
+        if (existingUser) {
+          //req.flash('errors', { msg: 'There is already a Facebook account that belongs to you. Sign in with that account or delete it, then link it with your current account.' });
+          //done(err);
+          var message = 'There is already a Facebook account that belongs to you. Sign in with that account or delete it, then link it with your current account.';
+          return res.send({csrf, sid, message});
         } else {
-          console.log("Saved user: " + user);
-          res.json({'response':'success', 'user': user});
+          User.findById(req.user.id, function(err, user) {
+            user.facebook = postId;
+            user.tokens.push({ kind: 'facebook', accessToken: postToken });
+            //user.profile.name = user.profile.name || profile.displayName;
+            //user.profile.gender = user.profile.gender || profile._json.gender;
+            //user.profile.picture = user.profile.picture || 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
+            user.save(function(err) {
+              //req.flash('info', { msg: 'Facebook account has been linked.' });
+              //done(err, user);
+              var message = 'Facebook account has been linked.';
+              return res.send({csrf, sid, user, message});
+            });
+          });
         }
       });
-    }
+    } else {
+      User.findOne({ facebook: postId }, function(err, existingUser) {
+        if (existingUser) {
+          //return done(null, existingUser);
+          req.logIn(existingUser, function(err) {
+            if (err) {
+            //  return next(err);
+              var message = err;
+              return res.send({csrf, sid, message});
+            }
+            //req.flash('success', { msg: 'Success! You are logged in.' });
+            else{
+              res.redirect('/users/app/home');
+            }
 
-  });
+          });
+        }
+        else{
+          User.findOne({ email: postEmail }, function(err, existingEmailUser) {
+            if (existingEmailUser) {
+              //req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Facebook manually from Account Settings.' });
+              //done(err);
+              var message = 'There is already an account using this email address. Sign in to that account and link it with Facebook manually from Account Settings.';
+              return res.send({csrf, sid, user, message});
+            } else {
+              var user = new User();
+              user.email = postEmail;
+              user.facebook = postId;
+              user.tokens.push({ kind: 'facebook', accessToken: postToken });
+              //user.profile.name = profile.displayName;
+              //user.profile.gender = profile._json.gender;
+              //user.profile.picture = 'https://graph.facebook.com/' + profile.id + '/picture?type=large';
+              //user.profile.location = (profile._json.location) ? profile._json.location.name : '';
+              user.save(function(err) {
+                req.logIn(user, function(err) {
+                  if (err) {
+                  //  return next(err);
+                    var message = err;
+                    return res.send({csrf, sid, message});
+                  }
+                  //req.flash('success', { msg: 'Success! You are logged in.' });
+                  else{
+                    res.redirect('/users/app/home');
+                  }
+
+                });
+                //done(err, user);
+              });
+            }
+          });
+        }
+        });
+
+    }
 };
 
 

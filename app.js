@@ -50,10 +50,14 @@ io = require('socket.io')(server);
 
 //Beginning of Chatting for Socket
 var nsp = io.of("/0");
+var numUsers = 0;
 
 io.on('connection', function(socket){
+  var addedUser = false;
   socket.on('chat message', function(msg){
 
+
+    console.log("CHAT:" + msg);
 //Middleware-ish re-creation of message
 //could do other validation things here,
 //or emit different messages depending on paylod
@@ -64,7 +68,70 @@ io.on('connection', function(socket){
     };
 
     io.emit('chat message', message);
+  //  io.broadcast.emit('new message', message);
   });
+
+
+  // when the client emits 'new message', this listens and executes
+  socket.on('new message', function (data) {
+    console.log("CHAT:" + data);
+
+    // we tell the client to execute 'new message'
+    socket.broadcast.emit('new message', {
+      username: socket.username,
+      message: data
+    });
+  });
+
+  // when the client emits 'add user', this listens and executes
+  socket.on('add user', function (username) {
+    if (addedUser) return;
+    console.log("added user normal socketr");
+
+    // we store the username in the socket session for this client
+    socket.username = username;
+    ++numUsers;
+    addedUser = true;
+    io.emit('login', {
+      numUsers: numUsers
+    });
+
+    console.log("a user has joined the chat...");
+    // echo globally (all clients) that a person has connected
+    socket.broadcast.emit('user joined', {
+      username: socket.username,
+      numUsers: numUsers
+    });
+  });
+
+  // when the client emits 'typing', we broadcast it to others
+  socket.on('typing', function () {
+    socket.broadcast.emit('typing', {
+      username: socket.username
+    });
+  });
+
+  // when the client emits 'stop typing', we broadcast it to others
+  socket.on('stop typing', function () {
+    socket.broadcast.emit('stop typing', {
+      username: socket.username
+    });
+  });
+
+  // when the user disconnects.. perform this
+  socket.on('disconnect', function () {
+    if (addedUser) {
+      --numUsers;
+
+      // echo globally that this client has left
+      socket.broadcast.emit('user left', {
+        username: socket.username,
+        numUsers: numUsers
+      });
+    }
+  });
+
+
 });
 
 

@@ -38,7 +38,7 @@ router.get('/app/home', passportConf.isAuthenticatedMobile, function(req,res,nex
     var sid =   req.session;
     var user = req.user;
     var message = "success";
-    
+
     res.send({csrf, sid, user, message});
 
 });
@@ -55,6 +55,9 @@ router.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email'
 router.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
 });
+router.post('/app/auth/facebook', accountController.loginFB);
+
+
 router.get('/auth/github', passport.authenticate('github'));
 router.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), function(req, res) {
   res.redirect(req.session.returnTo || '/');
