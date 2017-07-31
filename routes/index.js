@@ -5,6 +5,7 @@ var path    = require("path");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  //console.log(req);
   res.render('login');
   //res.redirect('/public/signup.html');
 //  res.sendFile(path.join(__dirname+'/signup.html'));

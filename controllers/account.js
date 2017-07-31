@@ -28,7 +28,7 @@ exports.login = (req,res,next) => {
     }
     if (!user) {
       req.flash('errors', { msg: info.message });
-      return res.redirect('/users/login');
+      return res.redirect('/');
     }
 
     req.logIn(user, function(err) {
