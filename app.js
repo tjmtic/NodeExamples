@@ -203,12 +203,13 @@ app.use(session({
  app.use(passport.session());
 
  app.use(function(req, res, next) {
-  if (req.path==='/' ) {
+  if (req.path==='/init' ) {
     next();
   } else {
     lusca.csrf()(req, res, next);
   }
 });
+
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 app.use(function(req, res, next) {
@@ -223,7 +224,6 @@ app.use(function(req, res, next) {
    req.fbManager = fbManager;
    next();
  });
-
 
 
 app.use('/', index);

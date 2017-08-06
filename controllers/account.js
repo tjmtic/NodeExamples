@@ -28,7 +28,7 @@ exports.login = (req,res,next) => {
     }
     if (!user) {
       req.flash('errors', { msg: info.message });
-      return res.redirect('/users/login');
+      return res.redirect('/');
     }
 
     req.logIn(user, function(err) {
@@ -46,11 +46,6 @@ exports.appLogin = (req,res,next) => {
 
   var csrf =  res.locals._csrf;
   var sid =   req.session;
-
-  console.log(req.body);
-  console.log(req.header);
-
-  console.log(csrf+" csrfsid " +sid);
 
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password cannot be blank').notEmpty();
