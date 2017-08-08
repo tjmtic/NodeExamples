@@ -213,11 +213,11 @@ app.use(session({
  app.use(function(req, res, next) {
   if (req.path==='/init' ) {
     next();
-  } else {*/
+  } else {
   console.log(req);
 
     lusca.csrf()(req, res, next);
-  //}
+  }
 });
 
 app.use(lusca.xframe('SAMEORIGIN'));
