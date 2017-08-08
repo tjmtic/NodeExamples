@@ -5,28 +5,27 @@ block content
     .row.expanded.grid-x
       .small-6.medium-6.column.small-order-2.medium-order-1
         .login-box-form-section
-          .flip-card.card(ontouchstart="this.classList.toggle('hover');")
-            .flip-card-inner
-              .flip-card-inner-front
-                | LOGIN
-              .flip-card-inner-back
-                form(action='/users/login', method='POST')
-                  h1.login-box-title Log In
-                  input(type='hidden', name='_csrf', value=_csrf)
-                  input.login-box-input(type='email', id='email', name='email', placeholder='E-mail')
-                  input.login-box-input(type='password', id='password', name='password', placeholder='Password')
-                  input.login-box-submit-button(type='submit', name='login_submit', value='Log In')
+          .example(ontouchstart="this.classList.toggle('hover');")
+            .turnBoxButton.check
+              | LOGIN
+            .turnBoxButton.turnBoxButtonPrev.check
+              form(action='/users/login', method='POST')
+                input(type='hidden', name='_csrf', value=_csrf)
+                h1.login-box-title Close
+                input.login-box-input(type='email', id='email', name='email', placeholder='E-mail')
+                input.login-box-input(type='password', id='password', name='password', placeholder='Password')
+                input.login-box-submit-button(type='submit', name='signup_submit', value='Log In')
 
 
         .login-box-form-section
           .flip-card.card(ontouchstart="this.classList.toggle('hover');")
-            .flip-card-inner
-              .flip-card-inner-front
-                | SIGNUP
-              .flip-card-inner-back
+            .example
+              .turnBoxButton.check
+                h1 SIGNUP
+              .turnBoxButton.turnBoxButtonPrev.check
                 form(action='/users/signup', method='POST')
-                  h1.login-box-title Sign up
                   input(type='hidden', name='_csrf', value=_csrf)
+                  h1.login-box-title Close
                   input.login-box-input(type='text', name='username', placeholder='Username')
                   input.login-box-input(type='email', name='email', placeholder='E-mail')
                   input.login-box-input(type='password', name='password', placeholder='Password')
@@ -51,6 +50,7 @@ block content
           .flip-card.card(ontouchstart="this.classList.toggle('hover');")
             .flip-card-inner
               .flip-card-inner-front
+<<<<<<< HEAD
                 form(action='/users/login', method='POST')
                   h1.login-box-title ???
 
@@ -58,6 +58,13 @@ block content
                 form(action='/users/login', method='POST')
                   h1.login-box-title Continue As Christopher Guest
                   input.login-box-submit-button(type='submit', name='signup_guest', value='Continue')
+=======
+                .fa-question
+              .flip-card-inner-back
+                form(action='/guest/login', method='POST')
+                  h1.login-box-title Continue as a Guest
+                  input.login-box-submit-button(type='submit', name='signup_submit', value='Log In')
+>>>>>>> 27269e10c5902ff8c1c54c3a4e924c151ae823e1
     .or OR
 
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')

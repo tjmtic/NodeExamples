@@ -57,7 +57,7 @@ io.on('connection', function(socket){
   socket.on('chat message', function(msg){
 
 
-    console.log("CHAT:" + msg);
+    console.log("CHAT CHATMESSAGE:" + msg);
 //Middleware-ish re-creation of message
 //could do other validation things here,
 //or emit different messages depending on paylod
@@ -76,11 +76,19 @@ io.on('connection', function(socket){
   socket.on('new message', function (data) {
     console.log("CHAT:" + data);
 
+    var chatMessage = {
+      username : data.user,
+      time : data.time,
+      message : data.value
+    };
+
+    io.emit('new message', chatMessage);
+
     // we tell the client to execute 'new message'
-    socket.broadcast.emit('new message', {
+    /*socket.broadcast.emit('new message', {
       username: socket.username,
       message: data
-    });
+    });*/
   });
 
   // when the client emits 'add user', this listens and executes
@@ -205,9 +213,11 @@ app.use(session({
  app.use(function(req, res, next) {
   if (req.path==='/init' ) {
     next();
-  } else {
+  } else {*/
+  console.log(req);
+
     lusca.csrf()(req, res, next);
-  }
+  //}
 });
 
 app.use(lusca.xframe('SAMEORIGIN'));
