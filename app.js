@@ -181,11 +181,14 @@ app.use(function (req,res,next){
 */
 
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.use('/bower_components',  express.static(__dirname + '/bower_components')); // Use BowerComponents
 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+//app.set('view engine', 'ejs');
+
 
 // uncomment after placing your favicon in /publi
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -211,7 +214,7 @@ app.use(session({
  app.use(passport.session());
 
  app.use(function(req, res, next) {
-  if (req.path==='/init' ) {
+  if (req.path==='/test/scotchUsers' ) {
     next();
   } else {
   console.log(req);

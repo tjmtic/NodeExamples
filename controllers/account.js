@@ -177,6 +177,39 @@ exports.loginFB = (req, res) => {
 };
 
 
+/**
+ * GUEST LOGIN
+ */
+exports.guestLogin = (req, res, next) => {
+
+  var t = Date.now();
+  var e = "christopher"+t+"@guest.com";
+  var u = "Guest"+t;
+
+
+  var user = new User({
+    email: e,
+    username: u
+  });
+
+      user.save(function(err) {
+                if (err) {
+                  return next(err);
+                }
+
+                req.logIn(user, function(err) {
+                  if (err) {
+                    return next(err);
+                  }
+
+                  req.flash('success', { msg: 'Success! You are logged in.' });
+
+                  res.redirect('/users/home');
+
+                });
+        });
+};
+
 
 
 /**

@@ -47,6 +47,7 @@ router.get('/app/home', passportConf.isAuthenticatedMobile, function(req,res,nex
 //LOGIN SETTING ROUTES
 router.post('/login', accountController.login);
 router.post('/app/login', accountController.appLogin);
+router.post('/guest/login', accountController.guestLogin);
 router.post('/signup', accountController.signup);
 router.get('/logout', accountController.logout);
 

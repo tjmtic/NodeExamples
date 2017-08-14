@@ -1,6 +1,6 @@
 {
-  "name": "node2",
-  "version": "0.0.0",
+  "name": "tjmticExamples",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "nodemon app.js"
@@ -19,8 +19,10 @@
     "express-validator": "^3.2.0",
     "firebase-admin": "^5.1.0",
     "jade": "~1.11.0",
+    "jsonwebtoken": "^5.0.2",
     "lodash": "^4.17.4",
     "lusca": "^1.4.1",
+    "method-override": "~2.1.2",
     "mongoose": "^4.5.5",
     "morgan": "~1.8.1",
     "mysql": "^2.10.2",

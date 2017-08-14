@@ -7,7 +7,7 @@ class Firebase {
 
 
 	constructor() {
-		console.log('Firebase module initilazing.');
+		console.log('Firebase module initilizing.');
 		FB.initializeApp({
 		  credential: FB.credential.cert(serviceAccount),
 		  databaseURL: process.env.FIREBASE_URL

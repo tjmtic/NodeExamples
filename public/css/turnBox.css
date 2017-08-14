@@ -2,6 +2,7 @@
       color: #fff;
       margin: 0px auto;
       text-align: center;
+      padding: 100px;
     }
 
     p {
@@ -38,6 +39,15 @@
 
     .example > .turnBoxFace {
       box-sizing: border-box;
+      background-color:#f0f;
+    }
+
+    .example > div {
+      background-color:#f0f;
+    }
+
+    .pane{
+      background-color:#f0f;
     }
 
     .example > .turnBoxFaceNum1 {

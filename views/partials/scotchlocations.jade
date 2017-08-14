@@ -1,0 +1,73 @@
+.no-js(ng-app='meanMapApp')
+  div(ng-controller='addCtrl')
+    .container
+      .header
+        ul.nav.nav-pills.pull-right
+          li(active='')
+            a(href='') Join the Team
+          li(disabled='')
+            a(href='') Find Teammates
+        h3.text-muted The Scotch MEAN MapApp
+      // Map and Side Panel
+      .row.content
+        // Google Map
+        // Google Map
+        .col-md-7
+          #map(style='width:645px; height:645px')
+        // Side Panel
+        .col-md-5
+          .panel.panel-default
+            // Panel Title
+            .panel-heading
+              h2.panel-title.text-center
+                | Join the Scotch Team!
+                span.glyphicon.glyphicon-map-marker
+            // Panel Body
+            .panel-body
+              // Creates Form (novalidate disables HTML validation, Angular will control)
+              form(name='addForm', novalidate='')
+                // Text Boxes and Other User Inputs. Note ng-model binds the values to Angular $scope
+                .form-group
+                  label(for='username')
+                    | Username
+                    span.badge All fields required
+                  input#username.form-control(type='text', placeholder='OldandGold', ng-model='formData.username', required='')
+                label.radio.control-label Gender
+                .radio
+                  label
+                    input#radiomale(type='radio', name='optionsRadios', value='Male', ng-model='formData.gender')
+                    |                                 Male
+                .radio(required='')
+                  label
+                    input#radiofemale(type='radio', name='optionsRadios', value='Female', ng-model='formData.gender')
+                    |                                 Female
+                .radio
+                  label
+                    input#radioother(type='radio', name='optionsRadios', value="What's it to ya?", ng-model='formData.gender')
+                    |                                 What's it to ya?
+                .form-group
+                  label(for='age') Age
+                  input#age.form-control(type='number', placeholder='72', ng-model='formData.age', required='')
+                .form-group
+                  label(for='language') Favorite Language
+                  input#language.form-control(type='text', placeholder='Fortran', ng-model='formData.favlang', required='')
+                .form-group
+                  label(for='latitude') Latitude
+                  input#latitude.form-control(type='text', value='39.500', ng-model='formData.latitude', readonly='')
+                .form-group
+                  label(for='longitude') Longitude
+                  input#longitude.form-control(type='text', value='-98.350', ng-model='formData.longitude', readonly='')
+                .form-group
+                  label(for='verified')
+                    | HTML5 Verified Location?
+                    span
+                      button.btn.btn-default.btn-xs
+                        span.glyphicon.glyphicon-refresh
+                  input#verified.form-control(type='text', placeholder='Nope (Thanks for spamming my map...)', ng-model='formData.htmlverified', readonly='')
+                // Submit button. Note that its tied to createUser() function from addCtrl. Also note ng-disabled logic which prevents early submits.
+                button.btn.btn-danger.btn-block(type='submit', ng-click='createUser()', ng-disabled='addForm.$invalid') Submit
+      hr
+      // Angular Scripts
+      script(src='js/gservice.js')
+      script(src='js/appAngular.js')
+      script(src='js/addCtrl.js')
